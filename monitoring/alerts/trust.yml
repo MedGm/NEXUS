@@ -1,0 +1,11 @@
+groups:
+  - name: trust
+    rules:
+      - alert: NexusTrustLow
+        expr: nexus_trust_composite < 0.6
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Trust score below 0.6 for dataset {{ $labels.dataset }}"
+          description: "Composite trust score has been below 0.6 for 5 minutes. Check validator logs."

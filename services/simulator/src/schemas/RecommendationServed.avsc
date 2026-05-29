@@ -1,0 +1,15 @@
+{
+  "type": "record",
+  "name": "RecommendationServed",
+  "namespace": "com.nexus.events",
+  "fields": [
+    {"name": "event_id", "type": "string"},
+    {"name": "timestamp", "type": "long"},
+    {"name": "rec_id", "type": "string"},
+    {"name": "user_id", "type": "string"},
+    {"name": "model_version", "type": "string"},
+    {"name": "items", "type": {"type": "array", "items": "string"}},
+    {"name": "score", "type": "float"},
+    {"name": "context", "type": "string"}
+  ]
+}

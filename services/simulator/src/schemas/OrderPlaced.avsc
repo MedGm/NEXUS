@@ -1,0 +1,23 @@
+{
+  "type": "record",
+  "name": "OrderPlaced",
+  "namespace": "com.nexus.events",
+  "fields": [
+    {"name": "event_id", "type": "string"},
+    {"name": "timestamp", "type": "long"},
+    {"name": "order_id", "type": "string"},
+    {"name": "user_id", "type": "string"},
+    {"name": "items", "type": {"type": "array", "items": {
+      "type": "record", "name": "OrderItem",
+      "fields": [
+        {"name": "sku", "type": "string"},
+        {"name": "name", "type": "string"},
+        {"name": "quantity", "type": "int"},
+        {"name": "price_usd", "type": "float"}
+      ]
+    }}},
+    {"name": "total_usd", "type": "float"},
+    {"name": "currency", "type": "string"},
+    {"name": "country", "type": "string"}
+  ]
+}

@@ -1,0 +1,15 @@
+dataset_id: SessionStarted
+lineage_depth: 1
+min_reference_batches: 10
+psi_columns: []
+expectations:
+  - type: expect_column_values_to_not_be_null
+    kwargs: {column: session_id}
+  - type: expect_column_values_to_not_be_null
+    kwargs: {column: user_id}
+  - type: expect_column_values_to_not_be_null
+    kwargs: {column: device}
+  - type: expect_column_values_to_not_be_null
+    kwargs: {column: ip}
+  - type: expect_column_to_exist
+    kwargs: {column: timestamp}

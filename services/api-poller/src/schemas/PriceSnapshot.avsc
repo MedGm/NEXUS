@@ -1,0 +1,15 @@
+{
+  "type": "record",
+  "name": "PriceSnapshot",
+  "namespace": "com.nexus.events",
+  "fields": [
+    {"name": "event_id", "type": "string"},
+    {"name": "timestamp", "type": "long"},
+    {"name": "symbol", "type": "string"},
+    {"name": "price_usd", "type": "double"},
+    {"name": "market_cap_usd", "type": "double"},
+    {"name": "volume_24h_usd", "type": "double"},
+    {"name": "pct_change_24h", "type": "double"},
+    {"name": "sampled_at", "type": "string"}
+  ]
+}

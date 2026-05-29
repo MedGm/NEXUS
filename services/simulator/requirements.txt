@@ -1,0 +1,5 @@
+faker>=24.0.0
+pytest>=8.0.0
+-e /app/common
+fastapi>=0.111.0
+uvicorn[standard]>=0.29.0

@@ -1,0 +1,55 @@
+{
+  "title": "NEXUS Kafka Health",
+  "uid": "nexus-kafka",
+  "schemaVersion": 37,
+  "version": 1,
+  "refresh": "10s",
+  "time": {"from": "now-30m", "to": "now"},
+  "panels": [
+    {
+      "id": 1,
+      "title": "Consumer Group Lag — nexus-anomaly-detector",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 24, "x": 0, "y": 0},
+      "targets": [
+        {
+          "expr": "kafka_consumergroup_lag{consumergroup=\"nexus-anomaly-detector\"}",
+          "legendFormat": "partition {{partition}} — {{topic}}",
+          "refId": "A",
+          "datasource": {"type": "prometheus", "uid": "prometheus"}
+        }
+      ],
+      "datasource": {"type": "prometheus", "uid": "prometheus"}
+    },
+    {
+      "id": 2,
+      "title": "Total Lag (all groups)",
+      "type": "stat",
+      "gridPos": {"h": 4, "w": 8, "x": 0, "y": 8},
+      "targets": [
+        {
+          "expr": "sum(kafka_consumergroup_lag)",
+          "legendFormat": "Total Lag",
+          "refId": "A",
+          "datasource": {"type": "prometheus", "uid": "prometheus"}
+        }
+      ],
+      "datasource": {"type": "prometheus", "uid": "prometheus"}
+    },
+    {
+      "id": 3,
+      "title": "Topic Partition Offsets",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 16, "x": 8, "y": 8},
+      "targets": [
+        {
+          "expr": "rate(kafka_topic_partition_current_offset{topic=~\"nexus.*\"}[1m])",
+          "legendFormat": "{{topic}} p{{partition}}",
+          "refId": "A",
+          "datasource": {"type": "prometheus", "uid": "prometheus"}
+        }
+      ],
+      "datasource": {"type": "prometheus", "uid": "prometheus"}
+    }
+  ]
+}

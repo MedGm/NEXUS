@@ -1,0 +1,15 @@
+{
+  "type": "record",
+  "name": "PaymentProcessed",
+  "namespace": "com.nexus.events",
+  "fields": [
+    {"name": "event_id", "type": "string"},
+    {"name": "timestamp", "type": "long"},
+    {"name": "payment_id", "type": "string"},
+    {"name": "order_id", "type": "string"},
+    {"name": "method", "type": "string"},
+    {"name": "status", "type": "string"},
+    {"name": "amount_usd", "type": "float"},
+    {"name": "gateway", "type": "string"}
+  ]
+}

@@ -1,0 +1,15 @@
+dataset_id: RecommendationServed
+lineage_depth: 1
+min_reference_batches: 10
+psi_columns: [score]
+expectations:
+  - type: expect_column_values_to_not_be_null
+    kwargs: {column: rec_id}
+  - type: expect_column_values_to_not_be_null
+    kwargs: {column: user_id}
+  - type: expect_column_values_to_not_be_null
+    kwargs: {column: model_version}
+  - type: expect_column_values_to_be_between
+    kwargs: {column: score, min_value: 0.0, max_value: 1.0}
+  - type: expect_column_to_exist
+    kwargs: {column: timestamp}

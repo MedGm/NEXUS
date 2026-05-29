@@ -1,0 +1,15 @@
+dataset_id: PriceSnapshot
+lineage_depth: 1
+min_reference_batches: 10
+psi_columns: [price_usd]
+expectations:
+  - type: expect_column_values_to_not_be_null
+    kwargs: {column: symbol}
+  - type: expect_column_values_to_not_be_null
+    kwargs: {column: price_usd}
+  - type: expect_column_values_to_be_between
+    kwargs: {column: price_usd, min_value: 0.0}
+  - type: expect_column_values_to_not_be_null
+    kwargs: {column: sampled_at}
+  - type: expect_column_to_exist
+    kwargs: {column: timestamp}

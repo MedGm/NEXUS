@@ -1,0 +1,152 @@
+{
+  "title": "Kafka Exporter Overview",
+  "uid": "jwPKIsniz",
+  "schemaVersion": 37,
+  "version": 51,
+  "refresh": "10s",
+  "time": {"from": "now-24h", "to": "now"},
+  "style": "dark",
+  "tags": ["Kafka"],
+  "templating": {
+    "list": [
+      {
+        "name": "job",
+        "label": "Job",
+        "type": "query",
+        "datasource": {"type": "prometheus", "uid": "prometheus"},
+        "query": "label_values(kafka_consumergroup_current_offset, job)",
+        "refresh": 1,
+        "includeAll": false,
+        "multi": false,
+        "sort": 0,
+        "hide": 0
+      },
+      {
+        "name": "instance",
+        "label": "Instance",
+        "type": "query",
+        "datasource": {"type": "prometheus", "uid": "prometheus"},
+        "query": "label_values(kafka_consumergroup_current_offset{job=~\"$job\"}, instance)",
+        "refresh": 1,
+        "includeAll": false,
+        "multi": false,
+        "sort": 0,
+        "hide": 0
+      },
+      {
+        "name": "topic",
+        "label": "Topic",
+        "type": "query",
+        "datasource": {"type": "prometheus", "uid": "prometheus"},
+        "query": "label_values(kafka_topic_partition_current_offset{instance='$instance',topic!='__consumer_offsets',topic!='--kafka'}, topic)",
+        "refresh": 1,
+        "includeAll": true,
+        "multi": true,
+        "sort": 1,
+        "hide": 0
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 14,
+      "type": "timeseries",
+      "title": "Message in per second",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"h": 10, "w": 12, "x": 0, "y": 0},
+      "fieldConfig": {
+        "defaults": {"custom": {"lineWidth": 1, "fillOpacity": 0}},
+        "overrides": []
+      },
+      "options": {"tooltip": {"mode": "multi"}},
+      "targets": [
+        {
+          "expr": "sum(rate(kafka_topic_partition_current_offset{instance=\"$instance\", topic=~\"$topic\"}[1m])) by (topic)",
+          "legendFormat": "{{topic}}",
+          "refId": "A",
+          "datasource": {"type": "prometheus", "uid": "prometheus"}
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "type": "timeseries",
+      "title": "Lag by Consumer Group",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"h": 10, "w": 12, "x": 12, "y": 0},
+      "fieldConfig": {
+        "defaults": {"custom": {"lineWidth": 1, "fillOpacity": 0}, "min": 0},
+        "overrides": []
+      },
+      "options": {"tooltip": {"mode": "multi"}},
+      "targets": [
+        {
+          "expr": "sum(kafka_consumergroup_lag{instance=\"$instance\",topic=~\"$topic\"}) by (consumergroup, topic)",
+          "legendFormat": "{{consumergroup}} ({{topic}})",
+          "refId": "A",
+          "datasource": {"type": "prometheus", "uid": "prometheus"}
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "type": "timeseries",
+      "title": "Message in per minute",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"h": 10, "w": 12, "x": 0, "y": 10},
+      "fieldConfig": {
+        "defaults": {"custom": {"lineWidth": 1, "fillOpacity": 0}},
+        "overrides": []
+      },
+      "options": {"tooltip": {"mode": "multi"}},
+      "targets": [
+        {
+          "expr": "sum(delta(kafka_topic_partition_current_offset{instance=~'$instance', topic=~\"$topic\"}[5m])/5) by (topic)",
+          "legendFormat": "{{topic}}",
+          "refId": "A",
+          "datasource": {"type": "prometheus", "uid": "prometheus"}
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "type": "timeseries",
+      "title": "Message consume per minute",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"h": 10, "w": 12, "x": 12, "y": 10},
+      "fieldConfig": {
+        "defaults": {"custom": {"lineWidth": 1, "fillOpacity": 0}},
+        "overrides": []
+      },
+      "options": {"tooltip": {"mode": "multi"}},
+      "targets": [
+        {
+          "expr": "sum(delta(kafka_consumergroup_current_offset{instance=~'$instance',topic=~\"$topic\"}[5m])/5) by (consumergroup, topic)",
+          "legendFormat": "{{consumergroup}} ({{topic}})",
+          "refId": "A",
+          "datasource": {"type": "prometheus", "uid": "prometheus"}
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "type": "timeseries",
+      "title": "Partitions per Topic",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"h": 7, "w": 20, "x": 0, "y": 20},
+      "fieldConfig": {
+        "defaults": {"custom": {"lineWidth": 1, "fillOpacity": 10}},
+        "overrides": []
+      },
+      "options": {"tooltip": {"mode": "multi"}},
+      "targets": [
+        {
+          "expr": "sum by(topic) (kafka_topic_partitions{instance=\"$instance\",topic=~\"$topic\"})",
+          "legendFormat": "{{topic}}",
+          "refId": "A",
+          "datasource": {"type": "prometheus", "uid": "prometheus"}
+        }
+      ]
+    }
+  ]
+}

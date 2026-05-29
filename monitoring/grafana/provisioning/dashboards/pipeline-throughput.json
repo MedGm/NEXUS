@@ -1,0 +1,55 @@
+{
+  "title": "NEXUS Pipeline Throughput",
+  "uid": "nexus-pipeline",
+  "schemaVersion": 37,
+  "version": 1,
+  "refresh": "10s",
+  "time": {"from": "now-30m", "to": "now"},
+  "panels": [
+    {
+      "id": 1,
+      "title": "Messages/s — nexus.raw.events",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0},
+      "targets": [
+        {
+          "expr": "sum(rate(kafka_topic_partition_current_offset{topic=\"nexus.raw.events\"}[1m]))",
+          "legendFormat": "raw events/s",
+          "refId": "A",
+          "datasource": {"type": "prometheus", "uid": "prometheus"}
+        }
+      ],
+      "datasource": {"type": "prometheus", "uid": "prometheus"}
+    },
+    {
+      "id": 2,
+      "title": "Messages/s — nexus.anomalies",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0},
+      "targets": [
+        {
+          "expr": "sum(rate(kafka_topic_partition_current_offset{topic=\"nexus.anomalies\"}[1m]))",
+          "legendFormat": "anomalies/s",
+          "refId": "A",
+          "datasource": {"type": "prometheus", "uid": "prometheus"}
+        }
+      ],
+      "datasource": {"type": "prometheus", "uid": "prometheus"}
+    },
+    {
+      "id": 3,
+      "title": "All Nexus Topics — Offset Rate",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 24, "x": 0, "y": 8},
+      "targets": [
+        {
+          "expr": "sum by (topic) (rate(kafka_topic_partition_current_offset{topic=~\"nexus.*\"}[1m]))",
+          "legendFormat": "{{topic}}",
+          "refId": "A",
+          "datasource": {"type": "prometheus", "uid": "prometheus"}
+        }
+      ],
+      "datasource": {"type": "prometheus", "uid": "prometheus"}
+    }
+  ]
+}

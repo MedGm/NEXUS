@@ -1,0 +1,17 @@
+dataset_id: OrderPlaced
+lineage_depth: 1
+min_reference_batches: 10
+psi_columns: [total_usd]
+expectations:
+  - type: expect_column_values_to_not_be_null
+    kwargs: {column: order_id}
+  - type: expect_column_values_to_not_be_null
+    kwargs: {column: user_id}
+  - type: expect_column_values_to_not_be_null
+    kwargs: {column: total_usd}
+  - type: expect_column_values_to_be_between
+    kwargs: {column: total_usd, min_value: 0.0}
+  - type: expect_column_values_to_not_be_null
+    kwargs: {column: currency}
+  - type: expect_column_to_exist
+    kwargs: {column: timestamp}

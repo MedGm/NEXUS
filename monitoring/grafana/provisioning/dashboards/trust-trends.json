@@ -1,0 +1,61 @@
+{
+  "title": "NEXUS Trust Score Trends",
+  "uid": "nexus-trust",
+  "schemaVersion": 37,
+  "version": 1,
+  "refresh": "10s",
+  "time": {"from": "now-1h", "to": "now"},
+  "panels": [
+    {
+      "id": 1,
+      "title": "Composite Trust Score per Dataset",
+      "type": "timeseries",
+      "gridPos": {"h": 10, "w": 24, "x": 0, "y": 0},
+      "fieldConfig": {
+        "defaults": {"min": 0, "max": 1, "unit": "percentunit"},
+        "overrides": []
+      },
+      "options": {"tooltip": {"mode": "multi"}},
+      "targets": [
+        {
+          "expr": "nexus_trust_composite",
+          "legendFormat": "{{dataset}}",
+          "refId": "A",
+          "datasource": {"type": "prometheus", "uid": "prometheus"}
+        }
+      ],
+      "datasource": {"type": "prometheus", "uid": "prometheus"}
+    },
+    {
+      "id": 2,
+      "title": "PSI Flag Count",
+      "type": "stat",
+      "gridPos": {"h": 4, "w": 12, "x": 0, "y": 10},
+      "targets": [
+        {
+          "expr": "sum(nexus_psi_flags_total)",
+          "legendFormat": "PSI Flags",
+          "refId": "A",
+          "datasource": {"type": "prometheus", "uid": "prometheus"}
+        }
+      ],
+      "datasource": {"type": "prometheus", "uid": "prometheus"}
+    },
+    {
+      "id": 3,
+      "title": "Trust Freshness",
+      "type": "timeseries",
+      "gridPos": {"h": 4, "w": 12, "x": 12, "y": 10},
+      "fieldConfig": {"defaults": {"min": 0, "max": 1, "unit": "percentunit"}, "overrides": []},
+      "targets": [
+        {
+          "expr": "nexus_trust_freshness",
+          "legendFormat": "{{dataset}}",
+          "refId": "A",
+          "datasource": {"type": "prometheus", "uid": "prometheus"}
+        }
+      ],
+      "datasource": {"type": "prometheus", "uid": "prometheus"}
+    }
+  ]
+}
