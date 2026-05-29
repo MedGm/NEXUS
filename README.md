@@ -2,6 +2,9 @@
 
 Real-time ML platform: streaming anomaly detection, causal incident intelligence, model lifecycle management, and observability dashboard. Built on Kafka, Postgres, MinIO, MLflow, Airflow, and Next.js.
 
+Architecture :
+![NEXUS Architecture](docs/nexus.png)
+
 ---
 
 ## Prerequisites
